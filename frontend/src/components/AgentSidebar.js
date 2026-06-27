@@ -3,234 +3,200 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../utils/AuthContext';
 
 import {
-  LayoutDashboard,
-  PhoneOutgoing,
-  History,
-  PhoneMissed,
-  Smartphone,
-  ArrowDownUp,
-  Mic,
-  Users,
-  LogOut
+LayoutDashboard,
+PhoneOutgoing,
+History,
+PhoneMissed,
+Smartphone,
+ArrowDownUp,
+Mic,
+Users,
+LogOut
 } from 'lucide-react';
 
 
-const navItems = [
+const navItems=[
 
-  {
-    to: '/agent',
-    label: 'Dashboard',
-    icon: LayoutDashboard,
-    end: true
-  },
+{
+to:'/agent',
+label:'Dashboard',
+icon:LayoutDashboard,
+end:true
+},
 
-  {
-    to: '/agent/dial',
-    label: 'Dial Pad',
-    icon: PhoneOutgoing
-  },
+{
+to:'/agent/dial',
+label:'Dial Pad',
+icon:PhoneOutgoing
+},
 
-  {
-    to: '/agent/calls',
-    label: 'My Calls',
-    icon: History
-  },
+{
+to:'/agent/clients',
+label:'Clients',
+icon:Users
+},
 
-  {
-    to: '/agent/missed',
-    label: 'Missed Calls',
-    icon: PhoneMissed,
-    badge: true
-  },
-
-  {
-    to: '/agent/numbers',
-    label: 'My Numbers',
-    icon: Smartphone
-  },
-
-  {
-    to: '/agent/priority',
-    label: 'Priority & Failover',
-    icon: ArrowDownUp
-  },
-
-  {
-    to: '/agent/recordings',
-    label: 'Recordings',
-    icon: Mic
-  },
+{
+to:'/agent/calls',
+label:'My Calls',
+icon:History
+},
 
 
-  // Added Client List
-  {
-    to: '/agent/clients',
-    label: 'Clients',
-    icon: Users
-  }
+{
+to:'/agent/missed',
+label:'Missed Calls',
+icon:PhoneMissed
+},
+
+
+{
+to:'/agent/numbers',
+label:'My Numbers',
+icon:Smartphone
+},
+
+
+{
+to:'/agent/priority',
+label:'Priority & Failover',
+icon:ArrowDownUp
+},
+
+
+{
+to:'/agent/recordings',
+label:'Recordings',
+icon:Mic
+}
+
 
 ];
 
 
-export default function AgentSidebar({ missedCount = 0 }) {
+export default function AgentSidebar({missedCount=0}){
 
-  const { user, logout } = useAuth();
 
-  const navigate = useNavigate();
+const {user,logout}=useAuth();
 
+const navigate=useNavigate();
 
-  const initials =
-    user?.name
-      ?.split(' ')
-      .map(n => n[0])
-      .join('')
-      .slice(0, 2)
-      .toUpperCase()
-    || 'AG';
 
+return (
 
+<aside className="sidebar">
 
-  return (
 
-    <aside className="sidebar">
+<div className="sidebar-logo">
 
+<div className="sidebar-logo-mark">
+AL
+</div>
 
-      <div className="sidebar-logo">
+<div>
+<span className="sidebar-logo-name">
+AURO Limited
+</span>
 
-        <div className="sidebar-logo-mark">
-          AL
-        </div>
+<span className="sidebar-logo-sub">
+Voice Logger
+</span>
 
+</div>
 
-        <div className="sidebar-logo-text">
 
-          <span className="sidebar-logo-name">
-            AURO Limited
-          </span>
+</div>
 
-          <span className="sidebar-logo-sub">
-            Voice Logger
-          </span>
 
-        </div>
+<nav style={{flex:1}}>
 
-      </div>
 
+{
+navItems.map(item=>(
 
+<NavLink
 
-      <nav
-        style={{
-          flex: 1,
-          overflowY: 'auto',
-          padding: '10px 0'
-        }}
-      >
+key={item.to}
 
+to={item.to}
 
-        {navItems.map(item => (
+end={item.end}
 
-          <NavLink
+className={({isActive})=>
+`sidebar-item${isActive?' active':''}`
+}
 
-            key={item.to}
+>
 
-            to={item.to}
+<item.icon size={15}/>
 
-            end={item.end}
+{item.label}
 
-            className={({isActive}) =>
-              `sidebar-item${isActive ? ' active' : ''}`
-            }
 
-          >
+</NavLink>
 
-            <item.icon size={15}/>
+))
+}
 
-            {item.label}
 
+</nav>
 
-            {item.badge && missedCount > 0 && (
 
-              <span className="sidebar-badge">
 
-                {missedCount}
+<div className="sidebar-footer">
 
-              </span>
 
-            )}
+<div className="sidebar-user">
 
 
-          </NavLink>
+<div className="sidebar-avatar">
+AS
+</div>
 
-        ))}
 
+<div>
 
-      </nav>
+<div className="sidebar-user-name">
+{user?.name}
+</div>
 
 
+<div className="sidebar-user-role">
+{user?.branch || "Agent"}
+</div>
 
 
-      <div className="sidebar-footer">
+</div>
 
 
-        <div className="sidebar-user">
+<button
 
+className="sidebar-logout"
 
-          <div className="sidebar-avatar">
+onClick={()=>{
 
-            {initials}
+logout();
 
-          </div>
+navigate('/login')
 
+}}
 
+>
 
-          <div>
+<LogOut size={15}/>
 
-            <div className="sidebar-user-name">
+</button>
 
-              {user?.name}
 
-            </div>
+</div>
 
 
-            <div className="sidebar-user-role">
+</div>
 
-              {user?.branch || 'Agent'}
 
-            </div>
+</aside>
 
 
-          </div>
-
-
-
-          <button
-
-            className="sidebar-logout"
-
-            onClick={() => {
-
-              logout();
-
-              navigate('/login');
-
-            }}
-
-          >
-
-            <LogOut size={15}/>
-
-          </button>
-
-
-
-        </div>
-
-
-      </div>
-
-
-    </aside>
-
-  );
+)
 
 }
