@@ -5,7 +5,7 @@ from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 import models, os
 
-SECRET_KEY = os.getenv("SECRET_KEY", "auro-voice-logger-secret-key-2026-change-in-production")
+SECRET_KEY = os.getenv("SECRET_KEY", "arabindasarkar199819981988")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 12
 
