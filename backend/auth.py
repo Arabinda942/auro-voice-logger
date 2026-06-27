@@ -1,3 +1,4 @@
+Set-Content -Path auth.py -Value "from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
 import bcrypt
